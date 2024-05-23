@@ -16,8 +16,14 @@
         <x-frontend.layouts.partials.slider :imageSliders="$imageSliders"/>
         <!-- End Slider -->
 
-        <!-- Start Categories  -->
-        <x-frontend.layouts.partials.categories :categories="$categories" />
+
+        <!-- Start Categories -->
+        <div class="categories-section" style="text-align: center; margin-top: 84px;">
+            <h2 style="font-size: 36px; font-weight: bold; color: #333; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;">
+                Categories
+            </h2>
+            <x-frontend.layouts.partials.categories :categories="$categories" />
+        </div>
         <!-- End Categories -->
 
         <x-frontend.layouts.partials.box/>
