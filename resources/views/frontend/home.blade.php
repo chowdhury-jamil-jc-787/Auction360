@@ -1,0 +1,230 @@
+<x-frontend.layouts.master>
+
+        <!-- Start Main Top -->
+        <x-frontend.layouts.partials.startMainTop/>
+        <!-- End Main Top -->
+
+        <!-- Start Main Top -->
+        <x-frontend.layouts.partials.header/>
+        <!-- End Main Top -->
+
+        <!-- Start Top Search -->
+        <x-frontend.layouts.partials.topSearch/>
+        <!-- End Top Search -->
+
+        <!-- Start Slider -->
+        <x-frontend.layouts.partials.slider :imageSliders="$imageSliders"/>
+        <!-- End Slider -->
+
+        <!-- Start Categories  -->
+        <x-frontend.layouts.partials.categories :categories="$categories" />
+        <!-- End Categories -->
+
+        <x-frontend.layouts.partials.box/>
+
+    <div class="products-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title-all text-center">
+                        <h1>Auction360 Recent Items</h1>
+                        <p>Auction360 Recent Listings Display: Explore Our Latest Items.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="special-menu text-center">
+                        <div class="button-group filter-button-group">
+                            <button class="active" data-filter="*">All</button>
+                            @foreach($categories as $category)
+                                @if($category->is_active)
+                                    <button data-filter=".{{ Str::slug($category->title) }}">{{ $category->title }}</button>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row special-list">
+                @foreach($products as $product)
+                    @php
+                        // Check if the product has an associated set timer
+                        $hasSetTimer = isset($product->end_time);
+
+                        // Check if the set timer has expired
+                        $isExpired = $hasSetTimer && strtotime($product->end_time) < time();
+                    @endphp
+
+                    {{-- Render the product only if it doesn't have a set timer or the set timer hasn't expired --}}
+                    @if (!$hasSetTimer || !$isExpired)
+                        <div class="col-lg-3 col-md-6 special-grid {{ Str::slug($product->category->title) }}">
+                            <div class="products-single fix">
+                                <div class="box-img-hover">
+                                    <div class="type-lb">
+                                        <p class="sale">{{ $product->name }}</p>
+                                    </div>
+
+                                    <img src="{{ asset($product->image) }}" class="img-fluid" alt="Image">
+                                    <div class="mask-icon">
+                                        <ul>
+                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
+                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                        </ul>
+                                        <a class="cart" href="/bid/{{ $product->id }}/{{ auth()->user() ? auth()->user()->id : 'null' }}">Bid</a>
+                                    </div>
+                                </div>
+                                <div class="why-text">
+                                    <h4>{{ $product->description }}</h4>
+                                    <h5>{{ $product->price }}</h5>
+                                    {{-- Render the timer only if the product has an associated set timer --}}
+                                    @if ($hasSetTimer)
+                                        <div class="timer" data-end-time="{{ $product->end_time }}"></div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Get all timer elements
+                    const timers = document.querySelectorAll('.timer');
+
+                    // Function to update timer for each product
+                    function updateTimer(timer) {
+                        const endTime = new Date(timer.dataset.endTime).getTime();
+                        const now = new Date().getTime();
+                        let remainingTime = endTime - now;
+
+                        if (remainingTime <= 0) {
+                            timer.closest('.special-grid').style.display = 'none'; // Hide the product container
+                        } else {
+                            const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+                            remainingTime %= (1000 * 60 * 60 * 24);
+                            const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+                            remainingTime %= (1000 * 60 * 60);
+                            const minutes = Math.floor(remainingTime / (1000 * 60));
+                            remainingTime %= (1000 * 60);
+                            const seconds = Math.floor(remainingTime / 1000);
+
+                            timer.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                        }
+                    }
+
+                    // Update timers every second
+                    setInterval(function () {
+                        timers.forEach(function (timer) {
+                            updateTimer(timer);
+                        });
+                    }, 1000);
+
+                    // Initial update
+                    timers.forEach(function (timer) {
+                        updateTimer(timer);
+                    });
+                });
+            </script>
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+
+
+
+
+    {{-- start_blog --}}
+    <div class="latest-blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title-all text-center">
+                        <h1>Upcoming Auction's Product</h1>
+                        <p>Exciting upcoming auction items await your bids on Auction360!.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-lg-4 col-xl-4">
+                    <div class="blog-box">
+                        <div class="blog-img">
+                            <img class="img-fluid" src="{{ asset('assets/frontend/home/images/blog-img.jpg') }}" alt="" />
+                        </div>
+                        <div class="blog-content">
+                            <div class="title-blog">
+                                <h3>Fusce in augue non nisi fringilla</h3>
+                                <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed mollis. Praesent laoreet lacinia elit id lobortis.</p>
+                            </div>
+                            <ul class="option-blog">
+                                <li><a href="#"><i class="far fa-heart"></i></a></li>
+                                <li><a href="#"><i class="fas fa-eye"></i></a></li>
+                                <li><a href="#"><i class="far fa-comments"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-4">
+                    <div class="blog-box">
+                        <div class="blog-img">
+                            <img class="img-fluid" src="{{ asset('assets/frontend/home/images/blog-img-01.jpg') }}" alt="" />
+                        </div>
+                        <div class="blog-content">
+                            <div class="title-blog">
+                                <h3>Fusce in augue non nisi fringilla</h3>
+                                <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed mollis. Praesent laoreet lacinia elit id lobortis.</p>
+                            </div>
+                            <ul class="option-blog">
+                                <li><a href="#"><i class="far fa-heart"></i></a></li>
+                                <li><a href="#"><i class="fas fa-eye"></i></a></li>
+                                <li><a href="#"><i class="far fa-comments"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 col-xl-4">
+                    <div class="blog-box">
+                        <div class="blog-img">
+                            <img class="img-fluid" src="{{ asset('assets/frontend/home/images/blog-img-02.jpg') }}" alt="" />
+                        </div>
+                        <div class="blog-content">
+                            <div class="title-blog">
+                                <h3>Fusce in augue non nisi fringilla</h3>
+                                <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed mollis. Praesent laoreet lacinia elit id lobortis.</p>
+                            </div>
+                            <ul class="option-blog">
+                                <li><a href="#"><i class="far fa-heart"></i></a></li>
+                                <li><a href="#"><i class="fas fa-eye"></i></a></li>
+                                <li><a href="#"><i class="far fa-comments"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- end_blog --}}
+
+
+        <!-- Start Instagram Feed  -->
+        <x-frontend.layouts.partials.instagramFeed/>
+        <!-- End Instagram Feed  -->
+
+
+        <!-- Start Footer  -->
+        <x-frontend.layouts.partials.footer/>
+        <!-- End Footer  -->
+
+</x-frontend.layouts.master>
+
