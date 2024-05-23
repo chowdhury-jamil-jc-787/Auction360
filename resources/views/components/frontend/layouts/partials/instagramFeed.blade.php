@@ -1,84 +1,14 @@
 <div class="instagram-box">
     <div class="main-instagram owl-carousel owl-theme">
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{{ asset('assets/frontend/home/images/instagram-img-01.jpg') }}" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
+        @foreach($galleries as $gallery)
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{{ asset($gallery->image) }}" alt="{{ $gallery->name }}" />
+                    <div class="hov-in">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{{ asset('assets/frontend/home/images/instagram-img-02.jpg') }}" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{{ asset('assets/frontend/home/images/instagram-img-03.jpg') }}" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{{ asset('assets/frontend/home/images/instagram-img-04.jpg') }}" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{{ asset('assets/frontend/home/images/instagram-img-05.jpg') }}" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{{ asset('assets/frontend/home/images/instagram-img-06.jpg') }}" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{{ asset('assets/frontend/home/images/instagram-img-07.jpg') }}" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{{ asset('assets/frontend/home/images/instagram-img-08.jpg') }}" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{{ asset('assets/frontend/home/images/instagram-img-09.jpg') }}" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{{ asset('assets/frontend/home/images/instagram-img-05.jpg') }}" alt="" />
-                <div class="hov-in">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 </div>

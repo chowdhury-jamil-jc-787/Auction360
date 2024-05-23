@@ -29,7 +29,7 @@ class GalleryController extends Controller
     public function index(Request $request)
     {
         // Determine the number of items per page
-        $perPage = $request->input('per_page', 10);
+        $perPage = $request->input('per_page', 5);
 
         // Retrieve paginated galleries
         $galleries = Gallery::latest()->paginate($perPage);

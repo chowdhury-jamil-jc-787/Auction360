@@ -222,9 +222,8 @@
     </div>
     {{-- end_blog --}}
 
-
         <!-- Start Instagram Feed  -->
-        <x-frontend.layouts.partials.instagramFeed/>
+        <x-frontend.layouts.partials.instagramFeed :galleries="$galleries" />
         <!-- End Instagram Feed  -->
 
 

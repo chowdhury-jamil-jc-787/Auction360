@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Image_slider;
 use App\Models\SetTimer;
 use App\Models\Product;
+use App\Models\Gallery;
 use Illuminate\Support\Facades\Http;
 
 
@@ -34,9 +35,13 @@ class HomeController extends Controller
         // Retrieve active image sliders
         $imageSliders = Image_slider::where('is_active', 1)->get();
 
-        // Pass the compacted categories, image sliders, and products to the view
-        return view('frontend.home', compact('categories', 'imageSliders', 'products'));
+        // Retrieve active gallery images
+        $galleries = Gallery::where('is_active', 1)->get();
+
+        // Pass the compacted categories, image sliders, products, and galleries to the view
+        return view('frontend.home', compact('categories', 'imageSliders', 'products', 'galleries'));
     }
+
 
 
 }
