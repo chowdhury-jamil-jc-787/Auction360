@@ -15,13 +15,13 @@
                   <div class="card mb-4">
                     <div class="card-header py-3 d-flex align-items-center justify-content-between">
                         <div>
-                            @can('category-create')
-                                <a href="{{ route('categories.create') }}" class="btn btn-success">Add Gallery</a>
+                            @can('gallery-create')
+                                <a href="{{ route('galleries.create') }}" class="btn btn-success">Add Gallery</a>
                             @endcan
                         </div>
                         <div>
-                            @can('category-trashed')
-                                <a href="{{ route('categories.trashed') }}" class="btn btn-warning">Trashed</a>
+                            @can('gallery-trashed')
+                                <a href="{{ route('galleries.trashed') }}" class="btn btn-warning">Trashed</a>
                             @endcan
                         </div>
                     </div>
@@ -32,10 +32,8 @@
                           <tr>
                           <th>No</th>
                           <th>Image</th>
-                          <th>Title</th>
-                          <th>Description</th>
+                          <th>Name</th>
                           <th>Status</th>
-                          <th class="text-nowrap">Created at</th>
                           <th width="280px">Action</th>
                           </tr>
                         </thead>
@@ -43,14 +41,47 @@
                           <tr>
                           <th>No</th>
                           <th>Image</th>
-                          <th>Title</th>
-                          <th>Description</th>
+                          <th>Name</th>
                           <th>Status</th>
-                          <th class="text-nowrap">Created at</th>
                           <th width="280px">Action</th>
                           </tr>
                         </tfoot>
                         <tbody>
+
+                            @php
+                                    $currentPage = $galleries->currentPage();
+                                    $perPage = $galleries->perPage();
+                                    $offset = ($currentPage - 1) * $perPage;
+                                @endphp
+                                @foreach ($galleries as $gallery)
+                                    <tr>
+                                        <th>{{ $loop->iteration + $offset }}</th>
+                                        <td><img src="{{ asset($gallery->image) }}" width="100px" style="width: 100px; height: 100px; overflow: hidden;"></td>
+                                        <td>{{ $gallery->name }}</td>
+                                        <td>
+                                            @if($gallery->is_active == 1)
+                                                Active
+                                            @else
+                                                InActive
+                                            @endif
+                                        </td>
+                                        <td class="text-nowrap">
+                                            <form action="{{ route('galleries.destroy',$gallery->id) }}" method="POST">
+                                                @can('gallery-show')
+                                                    <a class="btn btn-info" href="{{ route('galleries.show',$gallery->id) }}">Show</a>
+                                                @endcan
+                                                @can('gallery-edit')
+                                                    <a class="btn btn-primary" href="{{ route('galleries.edit',$gallery->id) }}">Edit</a>
+                                                @endcan
+                                                @csrf
+                                                @method('DELETE')
+                                                @can('gallery-delete')
+                                                    <button type="submit" onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this post?')){ this.closest('form').submit(); }" class="btn btn-danger">Delete</button>
+                                                @endcan
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
                         </tbody>
 
@@ -60,6 +91,7 @@
 
                     </div>
                     <br>
+                    {{ $galleries->links() }}
 
                   </div>
                 </div>

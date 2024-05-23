@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Gallery;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
-use App\Http\Requests\gallery\StoreGalleryRequest;
+use App\Http\Requests\gallery\StoregalleryRequest;
 use App\Http\Requests\gallery\UpdateGalleryRequest;
 
 class GalleryController extends Controller
@@ -49,7 +49,7 @@ class GalleryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreGalleryRequest $request)
+    public function store(StoregalleryRequest $request)
     {
         $input = $request->all();
 
@@ -83,7 +83,7 @@ class GalleryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateGalleryRequest $request, Gallery $gallery)
+    public function update(UpdategalleryRequest $request, Gallery $gallery)
     {
 
         $input = $request->all();

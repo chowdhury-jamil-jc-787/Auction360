@@ -87,6 +87,11 @@ Route::get('/product/trashed', [App\Http\Controllers\ProductController::class, '
 Route::get('/product/trashed/restore/{product}', [App\Http\Controllers\ProductController::class, 'restore'])->name('products.trashed.restore');
 Route::delete('/product/trashed/delete/{product}', [App\Http\Controllers\ProductController::class, 'delete'])->name('products.trashed.delete');
 
+//galleries softdeletes routes
+Route::get('/gallery/trashed', [App\Http\Controllers\GalleryController::class, 'trashed'])->name('galleries.trashed');
+Route::get('/gallery/trashed/restore/{gallery}', [App\Http\Controllers\GalleryController::class, 'restore'])->name('galleries.trashed.restore');
+Route::delete('/gallery/trashed/delete/{gallery}', [App\Http\Controllers\GalleryController::class, 'delete'])->name('galleries.trashed.delete');
+
 
 //profiles routes
 Route::group(['middleware' => ['auth']], function() {
