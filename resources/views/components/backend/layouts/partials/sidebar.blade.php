@@ -67,7 +67,7 @@
     <li class="nav-item">
       <a class="nav-link" href="/bids">
         <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
-        <span>Bid</span>
+        <span>Auction Item</span>
       </a>
     </li>
     <li class="nav-item">
