@@ -122,3 +122,11 @@ Route::patch('/admin/imagesliders/{image_slider}/update',[ImageSliderController:
 Route::get('/admin/trash-products/{image_slider}',[ImageSliderController::class, 'restore'])->name('image_slider.restore');
 Route::delete('/admin/trash-products/{image_slider}/delete',[ImageSliderController::class, 'delete'])->name('image_slider.delete');
 Route::get('/frontend/carosel',[homeController::class, 'index'])->name('carosel.list');
+
+
+
+
+
+//routes for the frontend
+Route::get('/productDetails', [App\Http\Controllers\HomeController::class, 'productDetails'])->name('productDetails');
+Route::get('/aboutUs', [App\Http\Controllers\HomeController::class, 'aboutUs'])->name('aboutUs');
