@@ -130,3 +130,13 @@ Route::get('/frontend/carosel',[homeController::class, 'index'])->name('carosel.
 //routes for the frontend
 Route::get('/productDetails', [App\Http\Controllers\HomeController::class, 'productDetails'])->name('productDetails');
 Route::get('/aboutUs', [App\Http\Controllers\HomeController::class, 'aboutUs'])->name('aboutUs');
+Route::get('/contactUs', [App\Http\Controllers\HomeController::class, 'contactUs'])->name('contactUs');
+
+
+
+
+
+//routes for notifications
+Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+Route::get('/notifications/unread', [SetTimerController::class, 'getUnreadNotifications'])->name('notifications.unread');
+Route::post('/notifications/{notification}/approve', [NotificationController::class, 'approve'])->name('notifications.approve');

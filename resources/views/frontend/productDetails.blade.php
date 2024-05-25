@@ -1,128 +1,120 @@
 <x-frontend.layouts.master>
-@push('css')
-<script src="https://cdn.tailwindcss.com"></script>
-@endpush
+    @push('css')
+    <style>
+        /* Add any custom CSS here if needed */
+        .card-custom {
+            min-width: 300px; /* Minimum width for cards */
+            width: calc(33.333% - 20px); /* 3 cards per row with 20px spacing */
+            height: 100%;
+            transition: all 0.3s ease-in-out;
+            margin-bottom: 20px; /* Add margin at the bottom */
+            margin-right: 20px; /* Add margin on the right */
+        }
 
-        <!-- Start Main Top -->
-        <x-frontend.layouts.partials.startMainTop/>
-        <!-- End Main Top -->
+        .card-custom:hover {
+            transform: translateY(-5px);
+        }
 
-        <!-- Start Main Top -->
-        <x-frontend.layouts.partials.header/>
-        <!-- End Main Top -->
+        .card-img-top-custom {
+            height: 200px; /* Fixed height for images */
+            object-fit: cover; /* Ensure the image covers the entire container */
+        }
 
-        <!-- Start Top Search -->
-        <x-frontend.layouts.partials.topSearch/>
-        <!-- End Top Search -->
+        .card-body-custom {
+            padding: 20px; /* Increased padding for larger content */
+        }
 
+        .category-container {
+            max-width: 250px;
+        }
 
+        .category-products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
 
-        <div class="flex bg-white p-4">
-      <div class="w-60 h-fit border rounded p-3">
-        <h1 class="font-bold text-lg text-gray-700">Categories</h1>
-        <div id="category-list"></div>
-      </div>
-      <div
-        class="flex-1 flex flex-wrap mx-auto justify-center lg:gap-10 gap-6"
-        id="card-container"
-      >
-        <script>
-          // Sample data for cards
-          const products = [
-            {
-              name: "Product 1",
-              description: "Description for product 1.",
-              price: "$100",
-              imageUrl:
-                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D",
-            },
-            {
-              name: "Product 2",
-              description: "Description for product 2.",
-              price: "$120",
-              imageUrl:
-                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D",
-            },
-            {
-              name: "Product 3",
-              description: "Description for product 3.",
-              price: "$140",
-              imageUrl:
-                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D",
+        @media (max-width: 992px) {
+            .card-custom {
+                width: calc(50% - 20px); /* 2 cards per row with 20px spacing */
             }
-          ];
+        }
 
-          const container = document.getElementById("card-container");
+        @media (max-width: 768px) {
+            .card-custom {
+                width: 100%; /* Full width on smaller screens */
+                margin-right: 0; /* Remove right margin on smaller screens */
+                margin-bottom: 20px; /* Add bottom margin on smaller screens */
+            }
+        }
+    </style>
+    @endpush
 
-          products.forEach((product) => {
-            const card = document.createElement("div");
-            card.className = "w-64 h-80 shadow-md rounded overflow-hidden hover:-mt-2 transition-all duration-300";
+    <!-- Start Main Top -->
+    <x-frontend.layouts.partials.startMainTop/>
+    <!-- End Main Top -->
 
-            card.innerHTML = `
-                    <div class="w-full h-1/2">
-                        <img
-                            class="h-full w-full object-cover hover:scale-105 transition-all duration-300"
-                            src="${product.imageUrl}"
-                            alt=""
-                        />
+    <!-- Start Main Top -->
+    <x-frontend.layouts.partials.header/>
+    <!-- End Main Top -->
+
+    <!-- Start Top Search -->
+    <x-frontend.layouts.partials.topSearch/>
+    <!-- End Top Search -->
+
+    <div class="container bg-white p-4 d-flex">
+        <div class="category-container border rounded p-3 mr-4">
+            <h1 class="font-bold text-lg text-gray-700">Categories</h1>
+            <div id="category-list">
+                @foreach ($categories as $category)
+                    <div class="flex items-center my-2">
+                        <input type="radio" name="category" class="mr-2" onclick="filterProducts('{{ $category->id }}')">
+                        <label>{{ $category->title }}</label>
                     </div>
-                    <div class="p-4 flex flex-col justify-between h-40">
-                        <div>
-                            <h1 class="font-semibold text-slate-800 text-center cursor-pointer">${product.name}</h1>
-                            <p class="text-sm leading-5 text-center">
-                                ${product.description}
-                            </p>
+                @endforeach
+            </div>
+        </div>
+        <div class="flex-1 mx-auto" id="card-container">
+            @foreach ($categories as $category)
+                <div id="category-{{ $category->id }}" class="category-products" style="display:none;">
+                    @foreach ($productsByCategory[$category->id] as $product)
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-4">
+                            <div class="card card-custom shadow-md rounded overflow-hidden">
+                                <img class="card-img-top card-img-top-custom" src="{{ $product->image }}" alt="{{ $product->name }}" />
+                                <div class="card-body card-body-custom">
+                                    <h5 class="card-title font-semibold text-slate-800">{{ $product->name }}</h5>
+                                    <p class="card-text text-sm leading-5">{{ $product->description }}</p>
+                                    <p class="card-text text-red-400 font-semibold">${{ number_format($product->price, 2) }}</p>
+                                    <button class="btn btn-outline-teal btn-sm mt-2">ADD TO CART</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="flex w-full justify-between">
-                            <p class="text-red-400 font-semibold tracking-wider">${product.price}</p>
-                            <button
-                                class="border border-teal-400 hover:bg-teal-400 transition all duration-150 hover:text-white font-semibold rounded px-4 text-xs py-1"
-                            >
-                                ADD TO CART
-                            </button>
-                        </div>
+                    @endforeach
+                    <div class="mt-4 w-100">
+                        {{ $productsByCategory[$category->id]->links() }} <!-- Pagination links for each category -->
                     </div>
-                `;
-
-            container.appendChild(card);
-          });
-        </script>
-      </div>
-    </div>
-  </body>
-  <script>
-    const categories = [
-        "All",
-        "Electronics",
-        "Clothing",
-        "Books",
-        "Home Goods",
-        "Toys",
-    ];
-
-    function generateCategoryList(categoryArray, containerId) {
-        const categoryList = document.getElementById(containerId);
-        let htmlContent = '';
-        categoryArray.forEach((category) => {
-            htmlContent += `
-                <div class="flex items-center my-2">
-                    <input type="checkbox" class="mr-2">
-                    <label>${category}</label>
                 </div>
-            `;
-        });
-        categoryList.innerHTML = htmlContent;
-    }
-    // Call the function to generate the category list
-    generateCategoryList(categories, "category-list");
-</script>
+            @endforeach
+        </div>
+    </div>
 
+    <script>
+        function filterProducts(categoryId) {
+            // Hide all category product divs
+            document.querySelectorAll('.category-products').forEach(function(categoryDiv) {
+                categoryDiv.style.display = 'none';
+            });
 
+            // Show the selected category product div
+            document.getElementById('category-' + categoryId).style.display = 'flex';
+        }
 
+        // Initially show all products
+        document.getElementById('category-{{ $categories->first()->id }}').style.display = 'flex';
+    </script>
 
-
-        <!-- Start Footer  -->
-        <x-frontend.layouts.partials.footer/>
-        <!-- End Footer  -->
+    <!-- Start Footer -->
+    <x-frontend.layouts.partials.footer/>
+    <!-- End Footer -->
 
 </x-frontend.layouts.master>

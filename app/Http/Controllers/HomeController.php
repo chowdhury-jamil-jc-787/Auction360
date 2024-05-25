@@ -8,6 +8,8 @@ use App\Models\Image_slider;
 use App\Models\SetTimer;
 use App\Models\Product;
 use App\Models\Gallery;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 
@@ -42,14 +44,31 @@ class HomeController extends Controller
         return view('frontend.home', compact('categories', 'imageSliders', 'products', 'galleries'));
     }
 
-    public function productDetails()
+    public function contactUs()
     {
-        return view('frontend.productDetails');
+        return view('frontend.contactUs');
     }
 
     public function aboutUs()
     {
         return view('frontend.aboutUs');
+    }
+
+    public function productDetails()
+    {
+        $categories = Category::all();
+
+        // Initialize an empty collection to store products by category
+        $productsByCategory = new Collection();
+
+        foreach ($categories as $category) {
+            $productsByCategory[$category->id] = DB::table('products')
+                ->where('category_id', $category->id)
+                ->paginate(3, ['*'], 'page_' . $category->id);
+        }
+
+        // Compact the categories
+        return view('frontend.productDetails', compact('categories', 'productsByCategory'));
     }
 
 

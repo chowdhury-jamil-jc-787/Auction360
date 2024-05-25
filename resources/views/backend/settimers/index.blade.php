@@ -29,7 +29,7 @@
                             <th>Product Name</th>
                             <th>Start Time</th>
                             <th>End Time</th>
-                            <th class="text-nowrap">Created at</th>
+                            <th>Status</th>
                             <th width="280px">Action</th>
                         </tr>
                     </thead>
@@ -39,7 +39,7 @@
                             <th>Product Name</th>
                             <th>Start Time</th>
                             <th>End Time</th>
-                            <th class="text-nowrap">Created at</th>
+                            <th>Status</th>
                             <th width="280px">Action</th>
                         </tr>
                     </tfoot>
@@ -55,12 +55,24 @@
                                 <td>{{ $setTimer->product->name }}</td>
                                 <td>{{ $setTimer->start_time }}</td>
                                 <td>{{ $setTimer->end_time }}</td>
-                                <td class="text-nowrap">{{ $setTimer->created_at->format('Y-m-d H:i:s') }}</td>
+                                <td>
+                                    @if ($setTimer->status == 0)
+                                        <span style="background-color: yellow;">Pending</span>
+                                    @elseif ($setTimer->status == 1)
+                                        <span style="background-color: green; color: white;">Approved</span>
+                                    @elseif ($setTimer->status == 2)
+                                        <span style="background-color: red; color: white;">Not Approved</span>
+                                    @else
+                                        <span>Unknown Status</span>
+                                    @endif
+                                </td>
+
+
                                 <td class="text-nowrap">
                                     <form action="{{ route('settimers.destroy', $setTimer->id) }}" method="POST">
-                                        @can('set-timer-edit')
-                                            <a class="btn btn-primary" href="{{ route('settimers.edit', $setTimer->id) }}">Edit</a>
-                                        @endcan
+                                        @if (auth()->user()->can('set-timer-edit') && $setTimer->status == 1)
+                                        <a class="btn btn-primary" href="{{ route('settimers.edit', $setTimer->id) }}">Edit</a>
+                                        @endif
                                         @csrf
                                         @method('DELETE')
                                         @can('set-timer-delete')
