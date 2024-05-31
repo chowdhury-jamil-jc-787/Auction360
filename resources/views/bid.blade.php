@@ -21,7 +21,7 @@
                         <h2>Bid</h2>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Product Details</li>
+                            <li class="breadcrumb-item active">Product Details for bid</li>
                         </ul>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                             <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                             <div class="buttons d-flex my-5">
                                 <div class="block quantity">
-                                    <input type="number" class="form-control" id="bid" value="1" placeholder="Enter bid" name="bid" style="width: 80px;">
+                                    <input type="number" class="form-control" id="bid" value="{{ $product->price }}" placeholder="Enter bid" name="bid" min="{{ $product->price }}" style="width: 80px;">
                                 </div>
                                 <div class="block">
                                     <button type="submit" class="shadow btn btn-success custom-btn">Submit</button>
@@ -114,11 +114,20 @@
 
 
 
+        <script>
+            document.getElementById('bid').addEventListener('input', function() {
+                var minValue = parseFloat(this.getAttribute('min'));
+                var currentValue = parseFloat(this.value);
 
+                if (currentValue < minValue) {
+                    this.value = minValue;
+                }
+            });
+        </script>
 
 
     <!-- Start Instagram Feed  -->
-    <x-frontend.layouts.partials.instagramFeed/>
+
     <!-- End Instagram Feed  -->
 
 

@@ -9,34 +9,44 @@ use Illuminate\Support\Facades\DB;
 
 class BidTableController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Retrieve the authenticated user
         $user = auth()->user();
         $roleName = null;
 
-        // If user exists, get their role name
         if ($user) {
-            // Assuming the user has a relationship with roles named 'roles'
             $roleName = $user->roles->first()->name ?? null;
         }
 
-        // Check if the authenticated user is a "Super Admin"
-        if ($roleName == 'Super Admin') {
-            // Fetch all bids
-            $bids = Bid::orderBy('created_at', 'desc')->paginate(5);
-        } else {
-            $bids = Bid::whereHas('product', function ($query) use ($user) {
+        $query = Bid::query();
+
+        if ($roleName != 'Super Admin') {
+            $query->whereHas('product', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
             })
-            ->where('user_id', '!=', $user->id) // Exclude bids where the bidder is the authenticated user
-            ->orderBy('created_at', 'desc')
-            ->paginate(5);
+            ->where('user_id', '!=', $user->id);
+        }
 
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->whereHas('product', function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            });
+        }
+
+        $bids = $query->orderBy('created_at', 'desc')->paginate(5);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'bids' => view('backend.bids.partials.bids_table', compact('bids'))->render(),
+                'pagination' => (string) $bids->links(),
+            ]);
         }
 
         return view('backend.bids.index', compact('bids'));
     }
+
+
 
     public function status()
     {

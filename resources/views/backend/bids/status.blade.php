@@ -24,6 +24,7 @@
                         <th scope="col">Bid Amount</th>
                         <th scope="col">B.Person</th>
                         <th scope="col">Status</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,6 +47,14 @@
                                 <span class="badge badge-secondary">{{ ucfirst($bid->status) }}</span>
                             @endif
                         </td>
+                        <td>
+                            <form action="" method="POST">
+                                @if ($bid->status == 'approved')
+                                <a class="btn btn-success" href="">Payment</a>
+                                @endif
+                            @csrf
+                                <button type="submit" onclick="event.preventDefault(); if(confirm('Are you sure you want to reject this post?')){ this.closest('form').submit(); }" class="btn btn-danger">Reject</button>
+                        </form></td>
                     </tr>
                     @empty
                     <tr>

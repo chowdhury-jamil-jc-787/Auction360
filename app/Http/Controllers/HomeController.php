@@ -22,12 +22,13 @@ class HomeController extends Controller
 
         // Query the products table with their associated set_timer end times
         $products = Product::leftJoin('set_timers', 'products.id', '=', 'set_timers.product_id')
-            ->select('products.*', 'set_timers.end_time')
+            ->select('products.*', 'set_timers.end_time', 'set_timers.status')
             ->where('set_timers.start_time', '<=', $currentDateTime)
             ->where(function ($query) use ($currentDateTime) {
                 $query->whereNull('set_timers.end_time')
                     ->orWhere('set_timers.end_time', '>=', $currentDateTime);
             })
+            ->where('set_timers.status', 1) // Add condition for status being 1
             ->orderBy('set_timers.start_time', 'desc') // Adjust order as needed
             ->get();
 
@@ -44,6 +45,7 @@ class HomeController extends Controller
         return view('frontend.home', compact('categories', 'imageSliders', 'products', 'galleries'));
     }
 
+
     public function contactUs()
     {
         return view('frontend.contactUs');
@@ -56,18 +58,31 @@ class HomeController extends Controller
 
     public function productDetails()
     {
-        $categories = Category::all();
+        // Retrieve only active categories
+        $categories = Category::where('is_active', true)->get();
 
         // Initialize an empty collection to store products by category
         $productsByCategory = new Collection();
 
+        // Retrieve the current date and time from the internet
+        $currentDateTime = Http::get('https://worldtimeapi.org/api/ip')->json()['datetime'];
+
         foreach ($categories as $category) {
             $productsByCategory[$category->id] = DB::table('products')
-                ->where('category_id', $category->id)
+                ->leftJoin('set_timers', 'products.id', '=', 'set_timers.product_id')
+                ->select('products.*', 'set_timers.end_time', 'set_timers.status')
+                ->where('products.category_id', $category->id)
+                ->where('set_timers.start_time', '<=', $currentDateTime)
+                ->where(function ($query) use ($currentDateTime) {
+                    $query->whereNull('set_timers.end_time')
+                          ->orWhere('set_timers.end_time', '>=', $currentDateTime);
+                })
+                ->where('set_timers.status', 1)
+                ->orderBy('set_timers.start_time', 'desc')
                 ->paginate(3, ['*'], 'page_' . $category->id);
         }
 
-        // Compact the categories
+        // Compact the categories and products by category
         return view('frontend.productDetails', compact('categories', 'productsByCategory'));
     }
 

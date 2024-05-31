@@ -11,6 +11,11 @@
                 <p>{{ $message }}</p>
             </div>
         @endif
+        @if ($message = Session::get('errors'))
+        <div class="alert alert-danger">
+            <p>{{ $message }}</p>
+        </div>
+        @endif
         <div class="card mb-4">
             <div class="card-header py-3 d-flex align-items-center justify-content-between">
                 <!-- No need for additional content in the header -->
@@ -37,12 +42,12 @@
                                 <td>{{ $notification['end_time'] }}</td>
                                 <td>{{ $notification['user_name'] }}</td>
                                 <td class="text-nowrap">
-                                    <form action="" method="POST">
+                                    <form action="{{ route('notifications.reject', $notification['notifiable_id']) }}" method="POST">
                                         @can('set-timer-edit')
-                                            <a class="btn btn-primary" href="">Approve</a>
+                                            <a class="btn btn-primary" href="/notifications/{{ $notification['notifiable_id'] }}/approve">Approve</a>
                                         @endcan
                                         @csrf
-                                        @method('DELETE')
+                    
                                         @can('set-timer-delete')
                                             <button type="submit" onclick="event.preventDefault(); if(confirm('Are you sure you want to reject?')){ this.closest('form').submit(); }" class="btn btn-danger">Reject</button>
                                         @endcan

@@ -137,6 +137,11 @@ Route::get('/contactUs', [App\Http\Controllers\HomeController::class, 'contactUs
 
 
 //routes for notifications
-Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('backend.notifications.index');
 Route::get('/notifications/unread', [SetTimerController::class, 'getUnreadNotifications'])->name('notifications.unread');
-Route::post('/notifications/{notification}/approve', [NotificationController::class, 'approve'])->name('notifications.approve');
+Route::get('/notifications/{notifiableId}/approve', [App\Http\Controllers\NotificationController::class, 'approveNotification'])->name('notifications.approve');
+Route::post('/notifications/{notifiableId}/reject', [App\Http\Controllers\NotificationController::class, 'rejectNotification'])->name('notifications.reject');
+
+
+//routes for payment
+Route::get('/invoice', [App\Http\Controllers\PaymentController::class, 'invoice'])->name('invoice');

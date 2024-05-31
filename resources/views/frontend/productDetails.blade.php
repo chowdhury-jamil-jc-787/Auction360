@@ -86,6 +86,9 @@
                                     <p class="card-text text-sm leading-5">{{ $product->description }}</p>
                                     <p class="card-text text-red-400 font-semibold">${{ number_format($product->price, 2) }}</p>
                                     <button class="btn btn-outline-teal btn-sm mt-2">ADD TO CART</button>
+                                    @if ($product->end_time)
+                                        <div class="timer mt-2" data-end-time="{{ $product->end_time }}"></div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -111,6 +114,31 @@
 
         // Initially show all products
         document.getElementById('category-{{ $categories->first()->id }}').style.display = 'flex';
+
+        // Timer countdown logic
+        document.querySelectorAll('.timer').forEach(function(timerElement) {
+            const endTime = new Date(timerElement.getAttribute('data-end-time')).getTime();
+
+            const updateTimer = () => {
+                const now = new Date().getTime();
+                const distance = endTime - now;
+
+                if (distance < 0) {
+                    timerElement.innerHTML = "EXPIRED";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                timerElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+            };
+
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        });
     </script>
 
     <!-- Start Footer -->

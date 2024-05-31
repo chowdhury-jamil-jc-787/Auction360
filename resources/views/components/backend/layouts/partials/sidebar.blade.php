@@ -73,7 +73,7 @@
     <li class="nav-item">
         <a class="nav-link" href="/bid/status">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-          <span>Bid Status</span>
+          <span>Bidding Status (myself)</span>
         </a>
       </li>
     <hr class="sidebar-divider">
