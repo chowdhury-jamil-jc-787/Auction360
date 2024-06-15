@@ -4,9 +4,8 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="custom-select-box">
                     <select id="currency-select" class="selectpicker show-tick form-control" data-placeholder="$ USD">
-                        <option value="" disabled>Select Currency</option>
+                        <option value="" disabled selected>Select Currency</option>
                         <option value="bdt">৳ BDT</option>
-                        <option value="usd">$ USD</option>
                     </select>
                 </div>
                 <div class="right-phone-box">
@@ -20,11 +19,9 @@
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div class="login-box">
-                    <select id="auth-select" class="selectpicker show-tick form-control" onchange="handleChange(this)">
-                        <option value="" disabled>Sign In or Register</option>
-                        <option value="register">Register Here</option>
-                        <option value="login">Sign In</option>
+                <div id="login-box" class="login-box">
+                    <select id="auth-select" class="selectpicker show-tick form-control">
+                        <!-- Options will be dynamically added by JavaScript -->
                     </select>
                 </div>
                 <div class="text-slid-box">
@@ -47,16 +44,33 @@
     </div>
 </div>
 
-<script>
-    function handleChange(selectElement) {
-        // Get the value of the selected option
-        var selectedOption = selectElement.value;
 
-        // Redirect the user based on the selected option
-        if (selectedOption === "register") {
-            window.location.href = "/register"; // Redirect to the registration route
-        } else if (selectedOption === "login") {
-            window.location.href = "/login"; // Redirect to the login route
-        }
+<script>
+   // Simulate user login state
+var isLoggedIn = true; // Change to true to simulate logged-in state
+
+document.addEventListener('DOMContentLoaded', function() {
+    var authSelect = document.getElementById('auth-select');
+
+    if (authSelect) {
+        // Populate the authentication select box
+        authSelect.innerHTML = `
+            <option value="" disabled selected>login Option</option>
+            <option value="/dashboard">login</option>
+        `;
+
+        authSelect.addEventListener('change', function() {
+            var selectedOption = this.value;
+
+            // Redirect the user based on the selected option
+            if (selectedOption === "register") {
+                window.location.href = "/register"; // Redirect to the registration route
+            } else if (selectedOption === "login") {
+                window.location.href = "/login"; // Redirect to the login route
+            } else if (selectedOption === "/dashboard") {
+                window.location.href = "/dashboard"; // Redirect to the dashboard route
+            }
+        });
     }
+});
 </script>

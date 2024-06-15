@@ -144,4 +144,4 @@ Route::post('/notifications/{notifiableId}/reject', [App\Http\Controllers\Notifi
 
 
 //routes for payment
-Route::get('/invoice', [App\Http\Controllers\PaymentController::class, 'invoice'])->name('invoice');
+Route::get('/invoice/{bidId}', [App\Http\Controllers\PaymentController::class, 'invoice']);
