@@ -62,7 +62,7 @@
 
                         <div class="price-area my-4">
 
-                            <p class="new-price text-bold mb-1">${{ $product->price }}</p>
+                            <p class="new-price text-bold mb-1">৳{{ $product->price }}</p>
                             <p class="text-secondary mb-1">(This is the bidding start price)</p>
 
                         </div>

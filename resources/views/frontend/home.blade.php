@@ -157,7 +157,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="title-all text-center">
-                        <h1>Upcoming Auction's Product</h1>
+                        <h1>About Auction's Product</h1>
                         <p>Exciting upcoming auction items await your bids on Auction360!.</p>
                     </div>
                 </div>
@@ -166,54 +166,54 @@
                 <div class="col-md-6 col-lg-4 col-xl-4">
                     <div class="blog-box">
                         <div class="blog-img">
-                            <img class="img-fluid" src="{{ asset('assets/frontend/home/images/blog-img.jpg') }}" alt="" />
+                            <img class="img-fluid" src="https://www.holmwood.co.nz/wp-content/uploads/2019/02/AdobeStock_73344826-1030x693.jpeg" alt="" />
                         </div>
                         <div class="blog-content">
                             <div class="title-blog">
-                                <h3>Fusce in augue non nisi fringilla</h3>
-                                <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed mollis. Praesent laoreet lacinia elit id lobortis.</p>
+                                <h3>Eligible Products for Bidding</h3>
+                                <p>Sellers can upload a variety of products for bidding, including electronics, fashion items, collectibles, and more. Ensure that the items are legal and meet the platform's standards for quality and authenticity.</p>
                             </div>
-                            <ul class="option-blog">
+                            {{-- <ul class="option-blog">
                                 <li><a href="#"><i class="far fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fas fa-eye"></i></a></li>
                                 <li><a href="#"><i class="far fa-comments"></i></a></li>
-                            </ul>
+                            </ul> --}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4 col-xl-4">
                     <div class="blog-box">
                         <div class="blog-img">
-                            <img class="img-fluid" src="{{ asset('assets/frontend/home/images/blog-img-01.jpg') }}" alt="" />
+                            <img class="img-fluid" src="https://geauction.com/wp-content/uploads/2018/07/5-Auction-Tips-for-Beginners2.jpg" alt="" />
                         </div>
                         <div class="blog-content">
                             <div class="title-blog">
-                                <h3>Fusce in augue non nisi fringilla</h3>
-                                <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed mollis. Praesent laoreet lacinia elit id lobortis.</p>
+                                <h3>Product Condition Requirements</h3>
+                                <p>All products listed for bidding must be in good condition. New, gently used, or refurbished items are acceptable, but they must be accurately described. Any defects or issues should be clearly noted in the product description.</p>
                             </div>
-                            <ul class="option-blog">
+                            {{-- <ul class="option-blog">
                                 <li><a href="#"><i class="far fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fas fa-eye"></i></a></li>
                                 <li><a href="#"><i class="far fa-comments"></i></a></li>
-                            </ul>
+                            </ul> --}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4 col-xl-4">
                     <div class="blog-box">
                         <div class="blog-img">
-                            <img class="img-fluid" src="{{ asset('assets/frontend/home/images/blog-img-02.jpg') }}" alt="" />
+                            <img class="img-fluid" src="https://geauction.com/wp-content/uploads/2018/06/Your-First-Auction-What-You-Need-to-Know.jpg" alt="" />
                         </div>
                         <div class="blog-content">
                             <div class="title-blog">
-                                <h3>Fusce in augue non nisi fringilla</h3>
-                                <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed mollis. Praesent laoreet lacinia elit id lobortis.</p>
+                                <h3>Documentation and Verification</h3>
+                                <p>Sellers must provide clear images and detailed descriptions of their products. Verification documents, such as proof of authenticity or purchase receipts, may be required for high-value items to ensure trust and transparency.</p>
                             </div>
-                            <ul class="option-blog">
+                            {{-- <ul class="option-blog">
                                 <li><a href="#"><i class="far fa-heart"></i></a></li>
                                 <li><a href="#"><i class="fas fa-eye"></i></a></li>
                                 <li><a href="#"><i class="far fa-comments"></i></a></li>
-                            </ul>
+                            </ul> --}}
                         </div>
                     </div>
                 </div>

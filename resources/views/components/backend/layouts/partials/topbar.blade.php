@@ -39,7 +39,7 @@
             </div>
             <a class="dropdown-item text-center small text-gray-500" href="/notifications">Show All Alerts</a>
         </div>
-    </li>
+      </li>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>

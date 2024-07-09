@@ -63,6 +63,23 @@
                         <img class="img-fluid rounded-circle" alt="Company Logo" src="{{ asset('assets/frontend/home/images/logo.png') }}" style="width: 200px;">
                     </div>
                 </div>
+                    <!-- Display success message -->
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+<!-- Display validation errors -->
+@if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                 <div class="row mb-4">
                     <div class="col-md-6 text-left">
                         <h5>{{ $data['user_name'] }}</h5>
@@ -143,7 +160,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="">
+                    <form method="POST" action="/payment/{{ $data['id'] }}">
                         @csrf
                         <div class="form-group">
                             <label class="bkash-number">bKash Number: 01623388861 ( Personal )</label>
@@ -158,7 +175,7 @@
                         </div>
                         <div class="form-group">
                             <label for="userBkashNumber">Your bKash Number</label>
-                            <input type="text" class="form-control" id="userBkashNumber" name="user_bkash_number" placeholder="Enter your bKash number" required>
+                            <input type="text" class="form-control" id="userBkashNumber" name="phone_number" placeholder="Enter your bKash number" required>
                         </div>
                         <div class="form-group">
                             <label for="transactionId">Transaction ID</label>

@@ -35,7 +35,9 @@
           <h6 class="collapse-header">Tables</h6>
           <a class="collapse-item" href="/roles">roles</a>
           <a class="collapse-item" href="/users">users</a>
+          @can('category-list')
           <a class="collapse-item" href="/categories">categories</a>
+          @endcan
           <a class="collapse-item" href="/products">products</a>
         </div>
       </div>

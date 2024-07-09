@@ -48,9 +48,9 @@
                             @if(auth()->user()->roles->first()->name == 'Super Admin' || $bid->product->user->id == auth()->id())
                             <td>
                                 <div class="btn-group" role="group">
-                                    <form action="" method="post">
+                                    <form action="/orders/{{ $bid->id }}/{{ $bid->product_id }}/{{ $bid->user_id }}/{{ $bid->bid }}" method="post">
                                         @csrf
-                                        @method('PATCH')
+                                        @method('POST')
                                         <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Do you want to approve this bid?');">Approved</button>
                                     </form>
                                     <div class="p-1"></div>

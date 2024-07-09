@@ -5,6 +5,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Bid;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +18,7 @@ use App\Http\Controllers\ImageSliderController;
 use App\Http\Controllers\SetTimerController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +36,12 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 
 //backend home route
 Route::get('/dashboard', function () {
+    // Get authenticated user
+    $user = Auth::user();
+
+    // Ensure user is authenticated and fetch user roles
+    $userRoles = $user ? $user->getRoleNames() : collect(); // Using getRoleNames() to fetch roles
+
     // Get total number of users
     $totalUsers = User::count();
 
@@ -53,7 +62,7 @@ Route::get('/dashboard', function () {
                         ->orderBy('month')
                         ->get();
 
-    return view('backend.home', compact('totalUsers', 'totalCategories', 'totalProducts', 'totalBids', 'bidsPerMonth'));
+    return view('backend.home', compact('totalUsers', 'totalCategories', 'totalProducts', 'totalBids', 'bidsPerMonth', 'userRoles'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
@@ -145,3 +154,15 @@ Route::post('/notifications/{notifiableId}/reject', [App\Http\Controllers\Notifi
 
 //routes for payment
 Route::get('/invoice/{bidId}', [App\Http\Controllers\PaymentController::class, 'invoice']);
+Route::post('/payment/{bid_Id}', [App\Http\Controllers\PaymentController::class, 'payment']);
+// Route::get('/payment/success', [App\Http\Controllers\PaymentController::class, 'payments'])->name('payment.success');
+
+
+//routes for orders
+Route::post('/orders/{bid_id}/{product_id}/{bid_user_id}/{price}', [OrderController::class, 'store']);
+Route::match(['get', 'post'], '/orders/reject/{bid_id}', [OrderController::class, 'reject'])->name('orders.reject');
+
+
+
+Route::get('/topRecentBidder', [App\Http\Controllers\BidController::class, 'topRecentBidder']);
+Route::get('/completed-bids', [App\Http\Controllers\BidController::class, 'completedBids']);

@@ -4,26 +4,31 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class AddCompletedStatusToBidsTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::table('bids', function (Blueprint $table) {
-            $table->enum('status', ['approved', 'pending', 'rejected'])->default('pending')->after('bid');
+            $table->enum('status', ['approved', 'pending', 'rejected', 'completed'])
+                  ->default('pending')
+                  ->after('bid');
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::table('bids', function (Blueprint $table) {
             $table->dropColumn('status');
         });
     }
-};
-
+}

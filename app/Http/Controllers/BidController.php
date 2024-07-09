@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Bid;
+use Illuminate\Support\Facades\DB;
 
 class BidController extends Controller
 {
@@ -45,5 +46,38 @@ class BidController extends Controller
         // Redirect the user to the home page
         return redirect('/')->with('success', 'Bid placed successfully.');
     }
+
+
+    public function topRecentBidder()
+    {
+        // Fetch bids with product names and user names, ordered by the most recent first, and paginate the results
+        $bids = DB::table('bids')
+            ->join('products', 'bids.product_id', '=', 'products.id')
+            ->join('users', 'bids.user_id', '=', 'users.id')
+            ->select('bids.id', 'products.name as product_name', 'bids.bid', 'users.name as user_name', 'bids.created_at')
+            ->orderBy('bids.created_at', 'desc')
+            ->paginate(10);
+
+        // Pass the paginated result to the view
+        return view('topRecentBidder', compact('bids'));
+    }
+
+    public function completedBids()
+    {
+        // Fetch bids with status 'completed', along with product names and user names, and paginate the results
+        $completedBids = DB::table('bids')
+            ->join('products', 'bids.product_id', '=', 'products.id')
+            ->join('users', 'bids.user_id', '=', 'users.id')
+            ->select('bids.id', 'products.name as product_name', 'bids.bid', 'users.name as user_name', 'bids.created_at')
+            ->where('bids.status', 'completed')
+            ->orderBy('bids.created_at', 'desc')
+            ->paginate(10);
+
+        // Pass the paginated result to the view
+        return view('topWinnerBidder', compact('completedBids'));
+    }
+
+
+
 
 }

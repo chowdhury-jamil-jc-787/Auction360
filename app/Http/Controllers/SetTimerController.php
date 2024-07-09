@@ -14,7 +14,7 @@ class SetTimerController extends Controller
 {
     public function index()
     {
-        $setTimers = SetTimer::paginate(5);
+        $setTimers = SetTimer::latest()->paginate(5);
         return view('backend.settimers.index', compact('setTimers'));
     }
 
